@@ -1,0 +1,187 @@
+clean architecture
+
+1. model all the business rules and entities in the core project
+
+2. all dependencies flow toward the core project
+
+3. inner projects(core) define interface and outer projects implement them.
+
+core contains -> 
+interfaces for business logic,
+abstractions for business logic, 
+aggregates is the encapsulation for the entities(models for the tables in database), 
+value objects (request to which we can add the relevant validations inside this file),
+Domain services,
+Domain Exceptions,
+Domain Events,
+Event handlers,
+Specifications,
+Validators,
+Enums,
+Custom Guards
+
+
+-------------------
+
+Design Patterns
+
+we are currently using the Factory pattern(follows dependency inversion principle) -> controllers interact with the interfaces.
+
+other options we have are
+1. Mediator -> for centralized of the interfaces
+2. Service locator -> centralization of the concrete implementations
+3. Dependency Injection -> directly depending upon the implementations
+
+
+------------
+
+DIP
+
+1.High-level modules should not depend on low-level modules. Both should depend on abstractions (interfaces or abstract classes).
+
+2. Abstractions should not depend on details. Details (concrete implementations) should depend on abstractions.
+
+
+------------
+
+SOLID Principles
+
+1. Single Responsibility Principle(SRP)
+
+	Definition: A class should have only one reason to change, meaning that it should have only one job or responsibility.
+
+2. Open/Closed Principle(OCP)
+	
+	Definition: Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification.
+
+
+3. Liskov Substitution Principle(LSP)
+
+	Definition: Objects of a superclass should be replaceable with objects of its subclasses without affecting the correctness of the program.
+
+
+4. Interface Segregation Principle(ISP)
+
+	Definition: Clients should not be forced to depend on interfaces they do not use.
+
+5. Dependency Inversion Principle(DIP)
+	
+	Definition: High-level modules should not depend on low-level modules. Both should depend on abstractions (interfaces or abstract classes). Abstractions should not depend on details. Details (concrete implementations) should depend on abstractions.
+	
+-------------------------
+
+Suppose you have a server hosting the .net web application
+
+Scaling out -> To add one more server to host applications
+
+Scaling up -> additional CPU, memory, disk space or other resources of already there in the server
+
+N-layer architecture -> N-layer architecture does not follow dependency inversion principle. As controller is depended on business and business on Data access and data access depends on db. So in the end the whole applications' dependency is on the database.
+
+Clean architecture -> Where as the clean architecture UI, Infrastructure depends on the Domain(Business) and the infrastructure depends on the database.
+
+The Infrastructure and Domain(Business) follows dependency inversion principle, where both of the depend on the abstractions.
+
+Infrastructure contains the implementations of the abstractions defined in the business(domain business)
+
+Domain business is independent.
+
+-----------------
+Three# important rules of clean architecture
+
+1. Model and all business rules and entities in the core project.
+
+2. All dependencies must flow toward the core project.
+
+3. Inner projects define interfaces. Outer projects implement them.
+------------
+
+CORE--components that must belong to Core
+
+1. Interfaces -- all the interfaces must be defined in the core project and the outer projects must implement them.
+
+2. aggregates -> Entities
+
+3. Value Objects
+
+4. Domain Services
+
+5. Domain Exceptions
+
+6. Domain Events -> Event Handlers (event to be triggered on certain action)
+
+7. Specifications
+
+8. Validators
+
+9. Enums
+
+10. Custom Guards
+
+
+---------------------------------------
+
+Solution Explorer Structure (Clean Architecture without CQRS):
+
+1. Presentation Layer:
+
+a.Controllers: If using MVC pattern, controllers handle incoming requests from the UI and invoke application services.
+
+b.Views: For rendering UI components in web applications.
+
+c.API Endpoints: If using Web API, contains controllers for handling API requests and responses.
+
+d.ViewModels or DTOs: Data Transfer Objects used to transfer data between layers.
+Application Layer:
+
+2.Application Services: 
+
+Implement use cases or business operations. They orchestrate the flow of data and operations between the presentation layer and the domain layer.
+
+Interfaces: Define contracts for external systems or repositories.
+
+Implementations: Actual implementations of application services.
+
+3.Domain Layer:
+
+a.Entities: Core business objects with identity and behavior.
+b.Value Objects: Immutable objects representing concepts without identity.
+c.Interfaces: Define domain services or repositories.
+d.Business Logic: Contains domain-specific rules and validations.
+
+4.Infrastructure Layer:
+
+a.Persistence: Data access layer (repositories) for storing and retrieving entities.
+b.External Services: Integrations with external systems (e.g., APIs, messaging services).
+c.Frameworks: Any third-party libraries or frameworks used by the application.
+d.Cross-cutting Concerns: Logging, caching, security, etc., that apply across different layers.
+
+
+----------------------------------------------------------IMPORTANT
+
+1. Presentation Layer - controllers without view
+						Filters
+						
+2. Application Layer - services(interface and implementation) - which acts as broker between presentation and business logic
+					 - use cases - where we directly have the business logic at this stage.
+					 - DTOs - data transfer objects - (immutable)
+						
+3. Domain Layer - entities, 
+				- business logic(interface and implementation), 
+				- aggregates
+					- specifications
+					- enums
+					- event and respective handlers(implementation in infrastructure layer)
+				- value objects,
+				- generic repository (interface) or we can have multiple repositories for each entity.
+				- domain exceptions
+				
+4. Infrastructure - connection to external infrastructure
+				  -- connect to database using db context
+				  - implemetation of generic repository or each entity's repository
+				  -- cache
+				  - sending email and sms and any utility activity.
+				  -- external api calls.
+
+
+				 

@@ -1,0 +1,18 @@
+sql query exceution order
+things i have to know about sql server
+
+--> how ms sql server is different from nosql and mongodb
+
+--> pros and cons of ms sql server
+
+Database design
+--> Normalization ->
+
+1st normal form -> no cell must have mutiple values
+2nd normal form -> 1.should fulfill 1 st normal form,
+				   2.there should be no partial dependency
+				   --> if the table has composite primary keys, the non-prime attributes should not depend only one of them. Non-prime attributes are the columns other than primary keys, if the columns must exist in that table, it must depend on the both of the primary keys
+3rd normal form -> 1. should fulfill 2nd normal form
+				   2.no transitive dependency , if A is depended on B, and B is depended on C, there is a transitive dependency A -> C, it should not happen. We should define the same into different tables.]
+				   
+BCNF -> 
